@@ -1,0 +1,9 @@
+---
+import DefaultHero from '@astrojs/starlight/components/Hero.astro';
+import HomeHero from '../home/HomeHero.astro';
+
+const route = (Astro.locals as { starlightRoute: { entry: { data: { hero?: { title?: string } } } } }).starlightRoute;
+const isHome = route.entry.data.hero?.title === 'NekoJS';
+---
+
+{isHome ? <HomeHero /> : <DefaultHero />}

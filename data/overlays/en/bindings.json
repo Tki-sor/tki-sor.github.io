@@ -1,0 +1,14 @@
+{
+  "binding:Utils": {
+    "title": "Utils",
+    "summary": "General-purpose random, conversion, and debugging helpers.",
+    "notes": [
+      "Available on all script sides."
+    ],
+    "examples": ["examples/basic/random.ts"]
+  },
+  "member:Utils#randomInt(number,number)": {
+    "title": "Random integer",
+    "summary": "Returns a random integer in the inclusive range."
+  }
+}

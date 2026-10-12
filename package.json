@@ -1,0 +1,25 @@
+{
+  "name": "nekojs-docs",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.15.0",
+  "scripts": {
+    "dev": "pnpm generate:api && astro dev",
+    "build": "pnpm generate:api && astro build",
+    "preview": "astro preview",
+    "generate:api": "node scripts/generate-api-pages.mjs",
+    "validate:data": "node scripts/validate-api-snapshot.mjs",
+    "check:api-links": "node scripts/check-api-links.mjs",
+    "check:examples": "tsc -p examples/tsconfig.json --noEmit",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.37.6",
+    "astro": "^5.13.5",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.9.2"
+  }
+}

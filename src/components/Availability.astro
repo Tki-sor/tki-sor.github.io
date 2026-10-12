@@ -1,0 +1,11 @@
+---
+const { platforms = [], sides = [] } = Astro.props as {
+  platforms?: string[];
+  sides?: string[];
+};
+---
+
+<div class="api-availability" aria-label="API availability">
+  {platforms.map((platform) => <span>{platform}</span>)}
+  {sides.map((side) => <span>{side}</span>)}
+</div>

@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docs.nekojs.dev/schemas/api-snapshot.schema.json",
+  "title": "NekoJS API Snapshot",
+  "type": "object",
+  "required": ["schemaVersion", "source", "runtime", "symbols"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "source": {
+      "type": "object",
+      "required": ["mod", "modVersion", "gitCommit"],
+      "additionalProperties": false,
+      "properties": {
+        "mod": { "type": "string", "minLength": 1 },
+        "modVersion": { "type": "string", "minLength": 1 },
+        "gitCommit": { "type": "string", "minLength": 1 },
+        "generatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "required": ["platform", "minecraft", "loader"],
+      "additionalProperties": false,
+      "properties": {
+        "platform": { "type": "string", "minLength": 1 },
+        "minecraft": { "type": "string", "minLength": 1 },
+        "loader": { "type": "string", "minLength": 1 },
+        "languages": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "symbols": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/symbol" }
+    }
+  },
+  "$defs": {
+    "availability": {
+      "type": "object",
+      "required": ["platform", "sides"],
+      "additionalProperties": false,
+      "properties": {
+        "platform": { "type": "string" },
+        "sides": { "type": "array", "items": { "enum": ["startup", "server", "client", "test", "all"] } },
+        "requiredMods": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "parameter": {
+      "type": "object",
+      "required": ["name", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "optional": { "type": "boolean" },
+        "default": { "type": ["string", "number", "boolean", "null"] }
+      }
+    },
+    "member": {
+      "type": "object",
+      "required": ["id", "name", "kind"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "kind": { "enum": ["method", "property", "constructor"] },
+        "description": { "type": "string" },
+        "parameters": { "type": "array", "items": { "$ref": "#/$defs/parameter" } },
+        "returns": { "type": "string" },
+        "deprecated": { "type": "boolean" }
+      }
+    },
+    "symbol": {
+      "type": "object",
+      "required": ["id", "kind", "name", "availability"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["binding", "global", "event", "handler", "type", "member", "registry", "adapter"] },
+        "name": { "type": "string", "minLength": 1 },
+        "qualifiedName": { "type": "string" },
+        "description": { "type": "string" },
+        "availability": { "type": "array", "items": { "$ref": "#/$defs/availability" } },
+        "members": { "type": "array", "items": { "$ref": "#/$defs/member" } },
+        "aliases": { "type": "array", "items": { "type": "string" } },
+        "deprecated": { "type": "boolean" }
+      }
+    }
+  }
+}

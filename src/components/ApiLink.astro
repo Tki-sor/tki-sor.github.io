@@ -1,0 +1,8 @@
+---
+const { id, label = id } = Astro.props as { id: string; label?: string };
+const symbolName = id.split(':').at(-1)?.split('#')[0] ?? id;
+const slug = symbolName.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-').replaceAll(/^-|-$/g, '');
+const href = `/reference/api/generated/${slug}/`;
+---
+
+<a class="api-link" href={href} title={`API symbol: ${id}`}>{label}</a>

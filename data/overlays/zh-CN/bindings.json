@@ -1,0 +1,14 @@
+{
+  "binding:Utils": {
+    "title": "工具函数",
+    "summary": "提供脚本中常用的随机数、转换和调试工具。",
+    "notes": [
+      "该绑定在所有脚本侧可用。"
+    ],
+    "examples": ["examples/basic/random.ts"]
+  },
+  "member:Utils#randomInt(number,number)": {
+    "title": "生成随机整数",
+    "summary": "返回闭区间内的随机整数。"
+  }
+}

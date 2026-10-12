@@ -1,0 +1,54 @@
+:root {
+  --sl-color-accent-low: #0c2b23;
+  --sl-color-accent: #22a37c;
+  --sl-color-accent-high: #b6f0d8;
+  --sl-font: 'Inter', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei UI', 'Noto Sans SC', system-ui, sans-serif;
+  --sl-font-mono: 'JetBrains Mono', 'Cascadia Code', 'Noto Sans Mono', ui-monospace, monospace;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #d3f3e6;
+  --sl-color-accent: #11805f;
+  --sl-color-accent-high: #093d2e;
+}
+
+body {
+  overflow-x: clip;
+}
+
+main,
+.content-panel,
+.sl-markdown-content {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.api-link {
+  font-weight: 650;
+}
+
+.api-availability {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+
+.api-availability span {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.82rem;
+}
+
+.sl-markdown-content .card-grid > *,
+.sl-markdown-content .card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.sl-markdown-content .card .title,
+.sl-markdown-content .card .body {
+  overflow-wrap: anywhere;
+}

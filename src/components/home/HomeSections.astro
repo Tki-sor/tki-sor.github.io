@@ -1,0 +1,239 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+import { getHomeContent } from './content';
+
+const route = (Astro.locals as { starlightRoute: { lang: string } }).starlightRoute;
+const content = getHomeContent(route.lang);
+const { stats, paths, features, sides, map, cta } = content;
+type IconName = Parameters<typeof Icon>[0]['name'];
+const icon = (name: string) => name as IconName;
+const isExternal = (href: string) => href.startsWith('http');
+---
+
+<div class="nk-home not-content">
+  <section class="nk-stats" aria-label="NekoJS">
+    {
+      stats.map((stat) => (
+        <div class="nk-stat">
+          <span class="nk-stat__value">{stat.value}</span>
+          <span class="nk-stat__text">
+            <strong>{stat.label}</strong>
+            <small>{stat.detail}</small>
+          </span>
+        </div>
+      ))
+    }
+  </section>
+
+  <section class="nk-section">
+    <header class="nk-section__head">
+      <span class="nk-eyebrow">{paths.eyebrow}</span>
+      <h2>{paths.title}</h2>
+      <p>{paths.lead}</p>
+    </header>
+    <div class="nk-paths">
+      {
+        paths.items.map((item) => (
+          <a class={`nk-path nk-tone--${item.tone}`} href={item.href}>
+            <span class="nk-path__top">
+              <span class="nk-path__icon">
+                <Icon name={icon(item.icon)} size="1.35rem" />
+              </span>
+              <span class="nk-path__tag">{item.tag}</span>
+            </span>
+            <strong class="nk-path__title">{item.title}</strong>
+            <span class="nk-path__body">{item.body}</span>
+            <span class="nk-path__cta">
+              {item.cta}
+              <Icon name="right-arrow" size="1rem" />
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="nk-section">
+    <header class="nk-section__head">
+      <span class="nk-eyebrow">{features.eyebrow}</span>
+      <h2>{features.title}</h2>
+      <p>{features.lead}</p>
+    </header>
+
+    <div class="nk-bento">
+      <article class="nk-tile nk-tile--types">
+        <div class="nk-tile__text">
+          <h3>{features.types.title}</h3>
+          <p>{features.types.body}</p>
+          <ul class="nk-points">
+            {features.types.points.map((point) => <li><Icon name="approve-check" size="1rem" />{point}</li>)}
+          </ul>
+        </div>
+        <div class="nk-terminal" aria-hidden="true">
+          <div class="nk-terminal__bar"><i></i><i></i><i></i><span>Minecraft Chat</span></div>
+          <div class="nk-terminal__body">
+            <div><span class="nk-prompt">&gt;</span> /nekojs probe</div>
+            <div class="nk-muted">Scanning bindings, events and types…</div>
+            <div><span class="nk-ok">✓</span> TypeScript <span class="nk-muted">→</span> <b>.d.ts</b></div>
+            <div><span class="nk-ok">✓</span> Python <span class="nk-muted">→</span> <b>.pyi</b></div>
+            <div class="nk-muted">Done. Your editor now knows the API.</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="nk-tile nk-tile--modern">
+        <h3>{features.modern.title}</h3>
+        <p>{features.modern.body}</p>
+        <pre class="nk-mini-code" aria-hidden="true"><code><span class="tk">import</span> {'{'} <span class="tv">readJson</span> {'}'} <span class="tk">from</span> <span class="ts">'./lib/io.js'</span>
+<span class="tk">const</span> <span class="tv">cfg</span> = <span class="tk">await</span> <span class="tf">readJson</span>(<span class="ts">'cfg.json'</span>)</code></pre>
+        <div class="nk-chips">
+          <span>ESM</span><span>CommonJS</span><span>top-level await</span><span>import()</span><span>import.meta</span>
+        </div>
+      </article>
+
+      <article class="nk-tile nk-tile--platforms">
+        <h3>{features.platforms.title}</h3>
+        <p>{features.platforms.body}</p>
+        <table class="nk-matrix">
+          <thead>
+            <tr>{features.platforms.columns.map((column) => <th scope="col">{column}</th>)}</tr>
+          </thead>
+          <tbody>
+            {
+              features.platforms.rows.map(([name, neoforge, fabric]) => (
+                <tr>
+                  <th scope="row"><code>{name}</code></th>
+                  <td class={neoforge ? 'is-yes' : 'is-no'}>{neoforge ? '●' : '—'}</td>
+                  <td class={fabric ? 'is-yes' : 'is-no'}>{fabric ? '●' : '—'}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </article>
+
+      <article class="nk-tile nk-tile--node">
+        <span class="nk-tile__icon"><Icon name="node" size="1.4rem" /></span>
+        <h3>{features.node.title}</h3>
+        <p>{features.node.body}</p>
+        <div class="nk-chips nk-chips--mono">
+          <span>fs</span><span>path</span><span>buffer</span><span>events</span><span>util</span>
+        </div>
+      </article>
+
+      <article class="nk-tile nk-tile--reload">
+        <span class="nk-tile__icon"><Icon name="random" size="1.4rem" /></span>
+        <h3>{features.reload.title}</h3>
+        <p>{features.reload.body}</p>
+        <code class="nk-inline-cmd">/nekojs reload server</code>
+      </article>
+
+      <article class="nk-tile nk-tile--python">
+        <span class="nk-tile__icon nk-tile__icon--py">Py</span>
+        <h3>{features.python.title}</h3>
+        <p>{features.python.body}</p>
+        <pre class="nk-mini-code" aria-hidden="true"><code><span class="tk">def</span> <span class="tf">on_tick</span>(<span class="tp">event</span>):
+    <span class="tv">ticks</span> = <span class="tp">event</span>.server.ticks
+    <span class="tk">if</span> <span class="tv">ticks</span> % <span class="tn">200</span> == <span class="tn">0</span>:
+        <span class="tp">event</span>.server.<span class="tf">tell</span>(<span class="ts">'Hi!'</span>)
+
+<span class="tv">ServerEvents</span>.<span class="tf">tick</span>(<span class="tf">on_tick</span>)</code></pre>
+      </article>
+    </div>
+  </section>
+
+  <section class="nk-section">
+    <header class="nk-section__head">
+      <span class="nk-eyebrow">{sides.eyebrow}</span>
+      <h2>{sides.title}</h2>
+      <p>{sides.lead}</p>
+    </header>
+    <div class="nk-sides">
+      {
+        sides.items.map((side) => (
+          <article class={`nk-side nk-tone--${side.tone}`}>
+            <code class="nk-side__dir">
+              <Icon name="document" size="0.95rem" />
+              {side.dir}
+            </code>
+            <h3>{side.name}</h3>
+            <p>{side.body}</p>
+            <ul class="nk-side__uses">
+              {side.uses.map((use) => <li>{use}</li>)}
+            </ul>
+            <div class="nk-side__reload">
+              <span>{sides.reloadLabel}</span>
+              <code>{side.reload}</code>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="nk-section">
+    <header class="nk-section__head">
+      <span class="nk-eyebrow">{map.eyebrow}</span>
+      <h2>{map.title}</h2>
+    </header>
+    <div class="nk-map">
+      {
+        map.groups.map((group) => (
+          <nav class="nk-map__group" aria-label={group.title}>
+            <h3>
+              <Icon name={icon(group.icon)} size="1.1rem" />
+              {group.title}
+            </h3>
+            <ul>
+              {group.links.map((link) => (
+                <li>
+                  {link.soon ? (
+                    <span class="nk-map__soon">
+                      {link.label}
+                      <em>{map.soon}</em>
+                    </span>
+                  ) : (
+                    <a href={link.href} {...(isExternal(link.href) ? { rel: 'noopener', target: '_blank' } : {})}>
+                      {link.label}
+                      <Icon name={isExternal(link.href) ? 'external' : 'right-caret'} size="0.9rem" />
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="nk-cta">
+    <div class="nk-cta__copy">
+      <h2>{cta.title}</h2>
+      <p>{cta.body}</p>
+      <div class="nk-cta__actions">
+        <a class="nk-button nk-button--primary" href={cta.primary.href}>
+          <Icon name="pencil" size="1.05rem" />
+          {cta.primary.label}
+        </a>
+        <a class="nk-button nk-button--ghost" href={cta.secondary.href} rel="noopener" target="_blank">
+          <Icon name="github" size="1.05rem" />
+          {cta.secondary.label}
+        </a>
+      </div>
+    </div>
+    <div class="nk-cta__progress">
+      <h3>{cta.progressTitle}</h3>
+      <ul>
+        {
+          cta.progress.map((item) => (
+            <li class={item.done ? 'is-done' : 'is-pending'}>
+              <span class="nk-check">{item.done ? '✓' : ''}</span>
+              {item.label}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</div>

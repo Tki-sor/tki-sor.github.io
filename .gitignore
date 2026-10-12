@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+artifacts/
+.memsearch/
+src/content/docs/**/reference/api/generated/
+
+.env
+.env.*
+!.env.example

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://docs.nekojs.dev/schemas/api-snapshot.schema.json",
+  "schemaVersion": 1,
+  "source": {
+    "mod": "nekojs",
+    "modVersion": "1.1.0-preview3",
+    "gitCommit": "demo-snapshot",
+    "generatedAt": "2026-10-06T12:00:00Z"
+  },
+  "runtime": {
+    "platform": "neoforge-26.1",
+    "minecraft": "26.1",
+    "loader": "neoforge",
+    "languages": ["javascript", "typescript", "python"]
+  },
+  "symbols": [
+    {
+      "id": "binding:Utils",
+      "kind": "binding",
+      "name": "Utils",
+      "qualifiedName": "com.tkisor.nekojs.api.UtilsJS",
+      "description": "常用的随机数、转换和调试工具。",
+      "availability": [
+        { "platform": "neoforge-26.1", "sides": ["startup", "server", "client", "test"] }
+      ],
+      "members": [
+        {
+          "id": "member:Utils#randomInt(number,number)",
+          "name": "randomInt",
+          "kind": "method",
+          "description": "返回闭区间内的随机整数。",
+          "parameters": [
+            { "name": "min", "type": "number" },
+            { "name": "max", "type": "number" }
+          ],
+          "returns": "number"
+        }
+      ],
+      "aliases": []
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+import { getHomeContent } from './content';
+
+const route = (Astro.locals as { starlightRoute: { lang: string } }).starlightRoute;
+const { hero } = getHomeContent(route.lang);
+---
+
+<section class="nk-hero not-content" aria-labelledby="nk-hero-title">
+  <div class="nk-hero__backdrop" aria-hidden="true">
+    <div class="nk-hero__grid"></div>
+    <div class="nk-hero__glow nk-hero__glow--a"></div>
+    <div class="nk-hero__glow nk-hero__glow--b"></div>
+  </div>
+
+  <div class="nk-hero__copy">
+    <a class="nk-badge" href={hero.badgeHref}>
+      <span class="nk-badge__dot" aria-hidden="true"></span>
+      {hero.badge}
+      <Icon name="right-arrow" size="0.9rem" />
+    </a>
+
+    <h1 id="nk-hero-title" class="nk-hero__title">
+      <span>{hero.titleLead}</span>
+      <span class="nk-gradient-text">{hero.titleAccent}</span>
+    </h1>
+
+    <p class="nk-hero__tagline">{hero.tagline}</p>
+
+    <div class="nk-hero__actions">
+      <a class="nk-button nk-button--primary" href={hero.primary.href}>
+        {hero.primary.label}
+        <Icon name="right-arrow" size="1.1rem" />
+      </a>
+      <a class="nk-button nk-button--ghost" href={hero.secondary.href}>
+        <Icon name="open-book" size="1.1rem" />
+        {hero.secondary.label}
+      </a>
+    </div>
+
+    <div class="nk-hero__langs">
+      <span class="nk-hero__langs-label">{hero.languagesLabel}</span>
+      <span class="nk-lang nk-lang--js">JS</span>
+      <span class="nk-lang nk-lang--ts">TS</span>
+      <span class="nk-lang nk-lang--py">PY</span>
+    </div>
+  </div>
+
+  <div class="nk-hero__visual" aria-hidden="true">
+    <div class="nk-editor">
+      <div class="nk-editor__bar">
+        <span class="nk-editor__dots"><i></i><i></i><i></i></span>
+        <span class="nk-editor__tab nk-editor__tab--active">
+          <span class="nk-file-icon nk-file-icon--ts">TS</span>recipes.ts
+        </span>
+        <span class="nk-editor__tab">
+          <span class="nk-file-icon nk-file-icon--ts">TS</span>startup.ts
+        </span>
+      </div>
+      <div class="nk-editor__crumbs">nekojs <b>›</b> server_scripts <b>›</b> recipes.ts</div>
+      <pre class="nk-editor__code"><code><span class="ln">1</span><span class="tc">{hero.codeComment}</span>
+<span class="ln">2</span><span class="tv">ServerEvents</span>.<span class="tf">recipes</span>(<span class="tp">event</span> <span class="tk">=&gt;</span> &#123;
+<span class="ln">3</span>  <span class="tp">event</span>.<span class="tf">remove</span>(&#123; <span class="tpr">output</span>: <span class="ts">'minecraft:stick'</span> &#125;)
+<span class="ln">4</span>
+<span class="ln">5</span>  <span class="tp">event</span>.<span class="tf">shaped</span>(<span class="ts">'minecraft:diamond'</span>, [
+<span class="ln">6</span>    <span class="ts">'SSS'</span>,
+<span class="ln">7</span>    <span class="ts">'S S'</span>,
+<span class="ln">8</span>    <span class="ts">'SSS'</span>
+<span class="ln">9</span>  ], &#123; <span class="tpr">S</span>: <span class="ts">'minecraft:stone'</span> &#125;)
+<span class="ln">10</span>&#125;)
+<span class="ln">11</span>
+<span class="ln">12</span><span class="tv">ServerEvents</span>.<span class="nk-caret"></span><span class="nk-filler">
+<span class="ln">13</span>
+<span class="ln">14</span>
+<span class="ln">15</span>
+<span class="ln">16</span>
+<span class="ln">17</span>
+<span class="ln">18</span></span></code></pre>
+
+      <div class="nk-complete">
+        <div class="nk-complete__head">{hero.completionHint}</div>
+        <ul>
+          <li class="is-active"><span class="nk-sym">ƒ</span><b>recipes</b><em>(callback) =&gt; void</em></li>
+          <li><span class="nk-sym">ƒ</span><b>tags</b><em>(type, callback)</em></li>
+          <li><span class="nk-sym">ƒ</span><b>tick</b><em>(callback)</em></li>
+          <li><span class="nk-sym">ƒ</span><b>loaded</b><em>(callback)</em></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="nk-toast">
+      <span class="nk-toast__icon"><Icon name="approve-check" size="1rem" /></span>
+      <span>
+        <strong>{hero.toast}</strong>
+        <small>{hero.toastDetail}</small>
+      </span>
+    </div>
+
+    <div class="nk-chip-float">
+      <code>/nekojs reload server</code>
+    </div>
+  </div>
+</section>

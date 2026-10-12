@@ -1,0 +1,44 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+---
+
+<button class="nk-theme-toggle" type="button" aria-label="切换主题" title="切换浅色/深色主题" aria-pressed="false">
+  <Icon name="sun" class="nk-theme-toggle__icon nk-theme-toggle__icon--sun" size="1rem" />
+  <Icon name="moon" class="nk-theme-toggle__icon nk-theme-toggle__icon--moon" size="1rem" />
+</button>
+
+<script>
+  type Theme = 'light' | 'dark';
+
+  const button = document.querySelector<HTMLButtonElement>('.nk-theme-toggle');
+  const root = document.documentElement;
+  const language = root.lang.toLowerCase().startsWith('en') ? 'en' : 'zh';
+
+  const currentTheme = (): Theme => (root.dataset.theme === 'light' ? 'light' : 'dark');
+
+  const updateButton = (): void => {
+    const theme = currentTheme();
+    const nextAction = theme === 'light'
+      ? (language === 'en' ? 'Switch to dark theme' : '切换到深色主题')
+      : (language === 'en' ? 'Switch to light theme' : '切换到浅色主题');
+    if (button) {
+      button.dataset.theme = theme;
+      button.setAttribute('aria-label', nextAction);
+      button.setAttribute('title', nextAction);
+      button.setAttribute('aria-pressed', String(theme === 'dark'));
+    }
+  };
+
+  button?.addEventListener('click', () => {
+    const nextTheme: Theme = currentTheme() === 'light' ? 'dark' : 'light';
+    root.dataset.theme = nextTheme;
+    localStorage.setItem('starlight-theme', nextTheme);
+    const provider = (window as Window & {
+      StarlightThemeProvider?: { updatePickers: (theme: Theme) => void };
+    }).StarlightThemeProvider;
+    provider?.updatePickers(nextTheme);
+    updateButton();
+  });
+
+  updateButton();
+</script>
